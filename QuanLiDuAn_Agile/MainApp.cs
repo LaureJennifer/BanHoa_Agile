@@ -1,7 +1,12 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using QuanLiDuAn_Agile.Models;
 using System.Data;
 using System.Data.Common;
+using System.Windows.Forms;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+
+
 
 namespace QuanLiDuAn_Agile
 {
@@ -17,11 +22,14 @@ namespace QuanLiDuAn_Agile
 
         SqlCommand cmd;
         SqlDataReader reader;
+        QLBHContext _dbContext = new QLBHContext();
 
         private void MainApp_Load(object sender, EventArgs e)
         {
             conn = new SqlConnection(connectionString);
             LoadData();
+
+         
 
         }
         public void LoadData()
@@ -45,32 +53,118 @@ namespace QuanLiDuAn_Agile
 
 
         }
-        public bool checkExit(int id)
-        {
-            // Lấy đối tượng Datagrid view
-            DataGridView dgv = this.dgv_SanPham;
-
-            // Lặp qua tất cả các dòng trong Datagrid view
-            for (int i = 0; i < dgv.Rows.Count; i++)
-            {
-                // Lấy giá trị Id của dòng thứ i
-                int idRow = Convert.ToInt32(dgv.Rows[i].Cells[0].Value);
-
-                // Nếu giá trị Id của dòng thứ i bằng với Id truyền vào
-                if (idRow == id)
-                {
-                    // Trả về true
-                    return true;
-                }
-            }
-
-            // Nếu không tìm thấy Id trong Datagrid view
-            // Trả về false
-            return false;
-        }
-
+        //public bool checkExit(string id)
+        //{
+        //}
+        
         private void btn_Find_Click(object sender, EventArgs e)
         {
+            
+            string content = txt_Find.Text.ToString();
+            string key = cbo_Find.Text;
+            var query = from sp in _dbContext.Sanphams
+                        where sp.IdsanPham.ToString().Contains(content)
+                        select
+                        new
+                        {
+                            sp.IdsanPham,
+                            sp.Ten,
+                            sp.Gianhap,
+                            sp.Slnhap
+                        };
+            if (string.IsNullOrEmpty(content))
+            {
+                return;
+            }
+            if (key == "ID")
+            {
+                 query = from sp in _dbContext.Sanphams
+                            where sp.IdsanPham.Contains(content)
+                            select
+                            new
+                            {
+                                sp.IdsanPham,
+                                sp.Ten,
+                                sp.Gianhap,
+                                sp.Slnhap
+                            };
+
+            }
+            else if (key == "Tên sản phẩm")
+            {
+                 query = from sp in _dbContext.Sanphams
+                            where sp.Ten.Contains(content)
+                            select
+                            new
+                            {
+                                sp.IdsanPham,
+                                sp.Ten,
+                                sp.Gianhap,
+                                sp.Slnhap
+                            };
+
+            }
+            else if (key == "Giá nhập")
+            {
+                query = from sp in _dbContext.Sanphams
+                            where sp.Gianhap.ToString().Contains(content)
+                            select
+                            new
+                            {
+                                sp.IdsanPham,
+                                sp.Ten,
+                                sp.Gianhap,
+                                sp.Slnhap
+                            };
+
+            }
+            else
+            {
+                query = from sp in _dbContext.Sanphams
+                            where sp.Slnhap.ToString().Contains(content)
+                            select
+                            new
+                            {
+                                sp.IdsanPham,
+                                sp.Ten,
+                                sp.Gianhap,
+                                sp.Slnhap
+                            };
+
+            }
+            List<Sanpham> lstSanPham = new List<Sanpham>();
+            lstSanPham = query.Select(x => new Sanpham
+            {
+                IdsanPham = x.IdsanPham,
+                Ten = x.Ten,
+                Gianhap = x.Gianhap,
+                Slnhap = x.Slnhap
+            }).ToList();
+
+            DataTable data = new DataTable();
+            data.Columns.Add("IdsanPham", typeof(string));
+            data.Columns.Add("Ten", typeof(string));
+            data.Columns.Add("Gianhap", typeof(decimal));
+            data.Columns.Add("Slnhap", typeof(int));
+            foreach (var item in lstSanPham)
+            {
+                DataRow row = data.NewRow();
+                row["IdsanPham"] = item.IdsanPham;
+                row["Ten"] = item.Ten;
+                row["Gianhap"] = item.Gianhap;
+                row["Slnhap"] = item.Slnhap;
+                data.Rows.Add(row);
+            }
+
+            dgv_SanPham.DataSource = data;
+            dgv_SanPham.Columns[0].HeaderText = "Id";
+            dgv_SanPham.Columns[0].Width = 45;
+            dgv_SanPham.Columns[1].HeaderText = "Tên sản phẩm ";
+            dgv_SanPham.Columns[1].Width = 310;
+            dgv_SanPham.Columns[2].HeaderText = "Giá nhập";
+            dgv_SanPham.Columns[2].Width = 233;
+            dgv_SanPham.Columns[3].HeaderText = "Số lượng nhập";
+            dgv_SanPham.Columns[3].Width = 233;
 
         }
 
@@ -81,26 +175,27 @@ namespace QuanLiDuAn_Agile
             decimal giaNhap = Convert.ToDecimal(this.txt_GiaNhap.Text);
             int soLuongNhap = Convert.ToInt32(this.txt_SoLuongNhap.Text);
 
-            if (checkExit(int.Parse(id)))
-            {
-                return;
-            }
+            //if (checkExit(id))
+            //{
+            //    return;
+            //}
 
             if (id == "" || tenSanPham == "" || giaNhap == 0 || soLuongNhap == 0)
             {
                 MessageBox.Show("Bạn cần điền đầy đủ thông tin!");
                 return;
             }
+            Sanpham sanpham = new Sanpham()
+            {
+                IdsanPham = id,
+                Ten = tenSanPham,
+                Gianhap = giaNhap,
+                Slnhap = soLuongNhap
+            };
 
-            conn.Open();
+            _dbContext.Sanphams.Add(sanpham);
+            _dbContext.SaveChanges();
 
-            var command = new SqlCommand("INSERT INTO sanpham (IDSanPham, TEN, GIANHAP, SLNHAP) VALUES (@id, @tenSanPham, @giaNhap, @soLuongNhap)", conn);
-            command.Parameters.AddWithValue("@id", id);
-            command.Parameters.AddWithValue("@tenSanPham", tenSanPham);
-            command.Parameters.AddWithValue("@giaNhap", giaNhap);
-            command.Parameters.AddWithValue("@soLuongNhap", soLuongNhap);
-            command.ExecuteNonQuery();
-            conn.Close();
             LoadData();
 
         }
@@ -112,36 +207,47 @@ namespace QuanLiDuAn_Agile
             decimal giaNhap = Convert.ToDecimal(this.txt_GiaNhap.Text);
             int soLuongNhap = Convert.ToInt32(this.txt_SoLuongNhap.Text);
 
-            if (checkExit(int.Parse(id)))
-            {
-                return;
-            }
+            //if (checkExit(id))
+            //{
+            //    return;
+            //}
 
             if (id == "" || tenSanPham == "" || giaNhap == 0 || soLuongNhap == 0)
             {
                 MessageBox.Show("Bạn cần điền đầy đủ thông tin!");
                 return;
             }
-            conn.Open();
-            var query = $"UPDATE SANPHAM SET TEN = '{txt_Name.Text}', GIANHAP = '{txt_GiaNhap.Text}', SLNHAP = '{txt_SoLuongNhap.Text}' WHERE IDSanPham = '{txt_Id.Text}'";
-            SqlCommand cmd = new SqlCommand(query, conn);
-            cmd.ExecuteNonQuery();
-            conn.Close();
+            var sanpham = _dbContext.Sanphams.Find(id);
+            sanpham.Ten = tenSanPham;
+            sanpham.Gianhap = giaNhap;
+            sanpham.Slnhap = soLuongNhap;
+            _dbContext.Sanphams.Update(sanpham);
+            _dbContext.SaveChanges();
             LoadData();
         }
-        
+
         private void btn_Del_Click(object sender, EventArgs e)
         {
-            conn.Open();
-            var deleteCommand = new SqlCommand($"DELETE FROM SANPHAM WHERE IDSanPham = '{txt_Id.Text}'", conn);
-            deleteCommand.ExecuteNonQuery();
+            string id = this.txt_Id.Text;
+            string tenSanPham = this.txt_Name.Text;
+            decimal giaNhap = Convert.ToDecimal(this.txt_GiaNhap.Text);
+            int soLuongNhap = Convert.ToInt32(this.txt_SoLuongNhap.Text);
+
+            Sanpham sanpham = new Sanpham()
+            {
+                IdsanPham = id,
+                Ten = tenSanPham,
+                Gianhap = giaNhap,
+                Slnhap = soLuongNhap
+            };
+            _dbContext.Sanphams.Remove(sanpham);
             txt_Id.Text = "";
             txt_Name.Text = "";
             txt_GiaNhap.Text = "";
             txt_SoLuongNhap.Text = "";
-            conn.Close();
+            _dbContext.SaveChanges();
             LoadData();
-          
+
         }
 
         private void btn_Show_Click(object sender, EventArgs e)
@@ -151,7 +257,7 @@ namespace QuanLiDuAn_Agile
             decimal giaNhap = Convert.ToDecimal(this.txt_GiaNhap.Text);
             int soLuongNhap = Convert.ToInt32(this.txt_SoLuongNhap.Text);
 
-            MessageBox.Show($"Id: {id} - Tên sản phẩm: {tenSanPham} - Giá nhập: {giaNhap} - Số lượng nhập: {soLuongNhap}","Thông tin chi tiết ");
+            MessageBox.Show($"Id: {id} - Tên sản phẩm: {tenSanPham} - Giá nhập: {giaNhap} - Số lượng nhập: {soLuongNhap}", "Thông tin chi tiết ");
         }
 
         private void btn_reset_Click(object sender, EventArgs e)
@@ -161,14 +267,13 @@ namespace QuanLiDuAn_Agile
             txt_Name.Text = "";
             txt_GiaNhap.Text = "";
             txt_SoLuongNhap.Text = "";
+            LoadData();
         }
 
         private void dgv_SanPham_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            
-            int row = e.RowIndex;
-            int column = e.ColumnIndex;
 
+            int row = e.RowIndex;
             txt_Id.Text = dgv_SanPham.Rows[row].Cells[0].Value.ToString();
             txt_Name.Text = dgv_SanPham.Rows[row].Cells[1].Value.ToString();
             txt_GiaNhap.Text = dgv_SanPham.Rows[row].Cells[2].Value.ToString();

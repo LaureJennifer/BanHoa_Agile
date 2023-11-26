@@ -80,16 +80,16 @@
             // 
             cbo_Find.FormattingEnabled = true;
             cbo_Find.Items.AddRange(new object[] { "ID", "Tên sản phẩm", "Giá nhập", "Số lượng nhập" });
-            cbo_Find.Location = new Point(651, 26);
+            cbo_Find.Location = new Point(622, 26);
             cbo_Find.Name = "cbo_Find";
-            cbo_Find.Size = new Size(82, 23);
+            cbo_Find.Size = new Size(111, 23);
             cbo_Find.TabIndex = 1;
             // 
             // txt_Find
             // 
             txt_Find.Location = new Point(25, 26);
             txt_Find.Name = "txt_Find";
-            txt_Find.Size = new Size(620, 23);
+            txt_Find.Size = new Size(591, 23);
             txt_Find.TabIndex = 0;
             // 
             // grb_ChiTiet
@@ -107,7 +107,7 @@
             grb_ChiTiet.Size = new Size(660, 316);
             grb_ChiTiet.TabIndex = 1;
             grb_ChiTiet.TabStop = false;
-            grb_ChiTiet.Text = "Chi tiết sản phẩm";
+            grb_ChiTiet.Text = "   ";
             // 
             // lb_SoLuongNhap
             // 

@@ -16,5 +16,11 @@ namespace QuanLiDuAn_Agile
         {
             InitializeComponent();
         }
+
+        private void btn_Login_Click(object sender, EventArgs e)
+        {
+            MainApp mainApp = new MainApp();
+            mainApp.ShowDialog();
+        }
     }
 }
