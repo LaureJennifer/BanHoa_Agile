@@ -1,10 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using QuanLiDuAn_Agile.Models;
+using QuanLiDuAn_Agile.Context;
+using QuanLiDuAn_Agile.DomainClass;
 using System.Data;
-using System.Data.Common;
-using System.Windows.Forms;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 
 
@@ -17,19 +14,19 @@ namespace QuanLiDuAn_Agile
         {
             InitializeComponent();
         }
-        string connectionString = @"Data Source=LEVANHUNG;Initial Catalog=QLBH;Integrated Security=True";
+        string connectionString = @"Data Source=trang;Initial Catalog=QLBH_agile;Integrated Security=True;";
         private SqlConnection conn;
 
         SqlCommand cmd;
         SqlDataReader reader;
-        QLBHContext _dbContext = new QLBHContext();
+        DBContext _dbContext = new DBContext();
 
         private void MainApp_Load(object sender, EventArgs e)
         {
             conn = new SqlConnection(connectionString);
             LoadData();
 
-         
+
 
         }
         public void LoadData()
@@ -49,6 +46,10 @@ namespace QuanLiDuAn_Agile
             dgv_SanPham.Columns[2].Width = 233;
             dgv_SanPham.Columns[3].HeaderText = "Số lượng nhập";
             dgv_SanPham.Columns[3].Width = 233;
+
+            // bỏ số 0 sau dấu chấm
+            dgv_SanPham.Columns[2].DefaultCellStyle.Format = "0.##";
+
             conn.Close();
 
 
@@ -56,10 +57,10 @@ namespace QuanLiDuAn_Agile
         //public bool checkExit(string id)
         //{
         //}
-        
+
         private void btn_Find_Click(object sender, EventArgs e)
         {
-            
+
             string content = txt_Find.Text.ToString();
             string key = cbo_Find.Text;
             var query = from sp in _dbContext.Sanphams
@@ -78,58 +79,58 @@ namespace QuanLiDuAn_Agile
             }
             if (key == "ID")
             {
-                 query = from sp in _dbContext.Sanphams
-                            where sp.IdsanPham.Contains(content)
-                            select
-                            new
-                            {
-                                sp.IdsanPham,
-                                sp.Ten,
-                                sp.Gianhap,
-                                sp.Slnhap
-                            };
+                query = from sp in _dbContext.Sanphams
+                        where sp.IdsanPham.Contains(content)
+                        select
+                        new
+                        {
+                            sp.IdsanPham,
+                            sp.Ten,
+                            sp.Gianhap,
+                            sp.Slnhap
+                        };
 
             }
             else if (key == "Tên sản phẩm")
             {
-                 query = from sp in _dbContext.Sanphams
-                            where sp.Ten.Contains(content)
-                            select
-                            new
-                            {
-                                sp.IdsanPham,
-                                sp.Ten,
-                                sp.Gianhap,
-                                sp.Slnhap
-                            };
+                query = from sp in _dbContext.Sanphams
+                        where sp.Ten.Contains(content)
+                        select
+                        new
+                        {
+                            sp.IdsanPham,
+                            sp.Ten,
+                            sp.Gianhap,
+                            sp.Slnhap
+                        };
 
             }
             else if (key == "Giá nhập")
             {
                 query = from sp in _dbContext.Sanphams
-                            where sp.Gianhap.ToString().Contains(content)
-                            select
-                            new
-                            {
-                                sp.IdsanPham,
-                                sp.Ten,
-                                sp.Gianhap,
-                                sp.Slnhap
-                            };
+                        where sp.Gianhap.ToString().Contains(content)
+                        select
+                        new
+                        {
+                            sp.IdsanPham,
+                            sp.Ten,
+                            sp.Gianhap,
+                            sp.Slnhap
+                        };
 
             }
             else
             {
                 query = from sp in _dbContext.Sanphams
-                            where sp.Slnhap.ToString().Contains(content)
-                            select
-                            new
-                            {
-                                sp.IdsanPham,
-                                sp.Ten,
-                                sp.Gianhap,
-                                sp.Slnhap
-                            };
+                        where sp.Slnhap.ToString().Contains(content)
+                        select
+                        new
+                        {
+                            sp.IdsanPham,
+                            sp.Ten,
+                            sp.Gianhap,
+                            sp.Slnhap
+                        };
 
             }
             List<Sanpham> lstSanPham = new List<Sanpham>();
@@ -257,7 +258,7 @@ namespace QuanLiDuAn_Agile
             decimal giaNhap = Convert.ToDecimal(this.txt_GiaNhap.Text);
             int soLuongNhap = Convert.ToInt32(this.txt_SoLuongNhap.Text);
 
-            MessageBox.Show($"Id: {id} - Tên sản phẩm: {tenSanPham} - Giá nhập: {giaNhap} - Số lượng nhập: {soLuongNhap}", "Thông tin chi tiết ");
+            MessageBox.Show($"Id: {id} - Tên sản phẩm: {tenSanPham} - Giá nhập: {giaNhap.ToString("0")} - Số lượng nhập: {soLuongNhap}", "Thông tin chi tiết ");
         }
 
         private void btn_reset_Click(object sender, EventArgs e)
@@ -276,9 +277,19 @@ namespace QuanLiDuAn_Agile
             int row = e.RowIndex;
             txt_Id.Text = dgv_SanPham.Rows[row].Cells[0].Value.ToString();
             txt_Name.Text = dgv_SanPham.Rows[row].Cells[1].Value.ToString();
-            txt_GiaNhap.Text = dgv_SanPham.Rows[row].Cells[2].Value.ToString();
+            decimal giaNhap = Convert.ToDecimal(dgv_SanPham.Rows[row].Cells[2].Value);
+            txt_GiaNhap.Text = giaNhap.ToString("0.##"); // bỏ số 0 sau dấu chấm
+            //txt_GiaNhap.Text = dgv_SanPham.Rows[row].Cells[2].Value.ToString();
             txt_SoLuongNhap.Text = dgv_SanPham.Rows[row].Cells[3].Value.ToString();
 
+
+        }
+
+        private void SortByPriceBtn_Click(object sender, EventArgs e)
+        {
+
+            var sortedSanphams = _dbContext.Sanphams.OrderByDescending(x => x.Gianhap).ToList();
+            dgv_SanPham.DataSource = sortedSanphams;
 
         }
     }
