@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace QuanLiDuAn_Agile.DomainClass
 {
@@ -10,7 +12,6 @@ namespace QuanLiDuAn_Agile.DomainClass
         public Sanpham()
         {
             Ctphieumuas = new HashSet<Ctphieumua>();
-            Phieumuas = new HashSet<Phieumua>();
         }
 
         [Key]
@@ -28,7 +29,5 @@ namespace QuanLiDuAn_Agile.DomainClass
 
         [InverseProperty("IdsanPhamNavigation")]
         public virtual ICollection<Ctphieumua> Ctphieumuas { get; set; }
-        [InverseProperty("IdsanPhamNavigation")]
-        public virtual ICollection<Phieumua> Phieumuas { get; set; }
     }
 }

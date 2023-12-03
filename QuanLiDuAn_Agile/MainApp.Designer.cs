@@ -296,7 +296,7 @@
             Controls.Add(grb_Find);
             Margin = new Padding(3, 4, 3, 4);
             Name = "MainApp";
-            Text = "Form1";
+            Text = "Trang sản phẩm";
             Load += MainApp_Load;
             grb_Find.ResumeLayout(false);
             grb_Find.PerformLayout();

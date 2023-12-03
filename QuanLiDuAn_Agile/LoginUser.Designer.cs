@@ -135,7 +135,7 @@
             Controls.Add(lb_acc);
             Margin = new Padding(3, 4, 3, 4);
             Name = "LoginUser";
-            Text = "Login User";
+            Text = "Login Guest";
             Load += LoginUser_Load;
             ResumeLayout(false);
             PerformLayout();

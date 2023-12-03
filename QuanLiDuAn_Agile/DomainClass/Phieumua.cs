@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace QuanLiDuAn_Agile.DomainClass
 {
@@ -21,10 +23,6 @@ namespace QuanLiDuAn_Agile.DomainClass
         [StringLength(10)]
         [Unicode(false)]
         public string Idkh { get; set; } = null!;
-        [Column("IDSanPham")]
-        [StringLength(10)]
-        [Unicode(false)]
-        public string IdsanPham { get; set; } = null!;
         [Column("NGAYMUA", TypeName = "datetime")]
         public DateTime Ngaymua { get; set; }
         [Column("TRANGTHAI")]
@@ -34,9 +32,6 @@ namespace QuanLiDuAn_Agile.DomainClass
         [ForeignKey("Idkh")]
         [InverseProperty("Phieumuas")]
         public virtual Khachhang IdkhNavigation { get; set; } = null!;
-        [ForeignKey("IdsanPham")]
-        [InverseProperty("Phieumuas")]
-        public virtual Sanpham IdsanPhamNavigation { get; set; } = null!;
         [InverseProperty("IdphieumuaNavigation")]
         public virtual ICollection<Ctphieumua> Ctphieumuas { get; set; }
     }
