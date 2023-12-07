@@ -37,7 +37,7 @@ namespace QuanLiDuAn_Agile
             data.Load(cmd.ExecuteReader());
             dgv_SanPham.DataSource = data;
             dgv_SanPham.Columns[0].HeaderText = "Id";
-            dgv_SanPham.Columns[0].Width = 45;
+            dgv_SanPham.Columns[0].Width = 55;
             dgv_SanPham.Columns[1].HeaderText = "Tên sản phẩm ";
             dgv_SanPham.Columns[1].Width = 310;
             dgv_SanPham.Columns[2].HeaderText = "Đơn giá";
@@ -154,7 +154,7 @@ namespace QuanLiDuAn_Agile
 
             dgv_SanPham.DataSource = data;
             dgv_SanPham.Columns[0].HeaderText = "Id";
-            dgv_SanPham.Columns[0].Width = 45;
+            dgv_SanPham.Columns[0].Width = 55;
             dgv_SanPham.Columns[1].HeaderText = "Tên sản phẩm ";
             dgv_SanPham.Columns[1].Width = 310;
             dgv_SanPham.Columns[2].HeaderText = "Đơn giá";
