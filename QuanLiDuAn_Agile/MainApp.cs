@@ -26,8 +26,6 @@ namespace QuanLiDuAn_Agile
             conn = new SqlConnection(connectionString);
             LoadData();
 
-
-
         }
         public void LoadData()
         {
@@ -42,9 +40,9 @@ namespace QuanLiDuAn_Agile
             dgv_SanPham.Columns[0].Width = 45;
             dgv_SanPham.Columns[1].HeaderText = "Tên sản phẩm ";
             dgv_SanPham.Columns[1].Width = 310;
-            dgv_SanPham.Columns[2].HeaderText = "Giá nhập";
+            dgv_SanPham.Columns[2].HeaderText = "Đơn giá";
             dgv_SanPham.Columns[2].Width = 233;
-            dgv_SanPham.Columns[3].HeaderText = "Số lượng nhập";
+            dgv_SanPham.Columns[3].HeaderText = "Số lượng";
             dgv_SanPham.Columns[3].Width = 233;
 
             // bỏ số 0 sau dấu chấm
@@ -54,9 +52,6 @@ namespace QuanLiDuAn_Agile
 
 
         }
-        //public bool checkExit(string id)
-        //{
-        //}
 
         private void btn_Find_Click(object sender, EventArgs e)
         {
@@ -105,7 +100,7 @@ namespace QuanLiDuAn_Agile
                         };
 
             }
-            else if (key == "Giá nhập")
+            else if (key == "Đơn giá")
             {
                 query = from sp in _dbContext.Sanphams
                         where sp.Gianhap.ToString().Contains(content)
@@ -162,9 +157,9 @@ namespace QuanLiDuAn_Agile
             dgv_SanPham.Columns[0].Width = 45;
             dgv_SanPham.Columns[1].HeaderText = "Tên sản phẩm ";
             dgv_SanPham.Columns[1].Width = 310;
-            dgv_SanPham.Columns[2].HeaderText = "Giá nhập";
+            dgv_SanPham.Columns[2].HeaderText = "Đơn giá";
             dgv_SanPham.Columns[2].Width = 233;
-            dgv_SanPham.Columns[3].HeaderText = "Số lượng nhập";
+            dgv_SanPham.Columns[3].HeaderText = "Số lượng";
             dgv_SanPham.Columns[3].Width = 233;
 
         }
@@ -176,28 +171,32 @@ namespace QuanLiDuAn_Agile
             decimal giaNhap = Convert.ToDecimal(this.txt_GiaNhap.Text);
             int soLuongNhap = Convert.ToInt32(this.txt_SoLuongNhap.Text);
 
-            //if (checkExit(id))
-            //{
-            //    return;
-            //}
-
-            if (id == "" || tenSanPham == "" || giaNhap == 0 || soLuongNhap == 0)
+            var FindspById = _dbContext.Sanphams.Find(id);
+            if (FindspById != null)
             {
-                MessageBox.Show("Bạn cần điền đầy đủ thông tin!");
-                return;
+                MessageBox.Show("Trùng mã Id, mời nhập lại!");
             }
-            Sanpham sanpham = new Sanpham()
+            else
             {
-                IdsanPham = id,
-                Ten = tenSanPham,
-                Gianhap = giaNhap,
-                Slnhap = soLuongNhap
-            };
+                if (id == "" || tenSanPham == "" || giaNhap == 0 || soLuongNhap == 0)
+                {
+                    MessageBox.Show("Bạn cần điền đầy đủ thông tin!");
+                    return;
+                }
+                Sanpham sanpham = new Sanpham()
+                {
+                    IdsanPham = id,
+                    Ten = tenSanPham,
+                    Gianhap = giaNhap,
+                    Slnhap = soLuongNhap
+                };
 
-            _dbContext.Sanphams.Add(sanpham);
-            _dbContext.SaveChanges();
+                _dbContext.Sanphams.Add(sanpham);
+                _dbContext.SaveChanges();
+                MessageBox.Show("Thêm sản phẩm thành công!");
+                LoadData();
 
-            LoadData();
+            }
 
         }
 
@@ -208,23 +207,27 @@ namespace QuanLiDuAn_Agile
             decimal giaNhap = Convert.ToDecimal(this.txt_GiaNhap.Text);
             int soLuongNhap = Convert.ToInt32(this.txt_SoLuongNhap.Text);
 
-            //if (checkExit(id))
-            //{
-            //    return;
-            //}
-
             if (id == "" || tenSanPham == "" || giaNhap == 0 || soLuongNhap == 0)
             {
                 MessageBox.Show("Bạn cần điền đầy đủ thông tin!");
                 return;
             }
             var sanpham = _dbContext.Sanphams.Find(id);
-            sanpham.Ten = tenSanPham;
-            sanpham.Gianhap = giaNhap;
-            sanpham.Slnhap = soLuongNhap;
-            _dbContext.Sanphams.Update(sanpham);
-            _dbContext.SaveChanges();
-            LoadData();
+            if (sanpham == null)
+            {
+                MessageBox.Show("Sản phẩm không tồn tại!");
+            }
+            else
+            {
+                sanpham.Ten = tenSanPham;
+                sanpham.Gianhap = giaNhap;
+                sanpham.Slnhap = soLuongNhap;
+                _dbContext.Sanphams.Update(sanpham);
+                _dbContext.SaveChanges();
+                MessageBox.Show("Sửa sản phẩm thành công!");
+                LoadData();
+            }
+           
         }
 
         private void btn_Del_Click(object sender, EventArgs e)
@@ -234,31 +237,37 @@ namespace QuanLiDuAn_Agile
             decimal giaNhap = Convert.ToDecimal(this.txt_GiaNhap.Text);
             int soLuongNhap = Convert.ToInt32(this.txt_SoLuongNhap.Text);
 
-            Sanpham sanpham = new Sanpham()
+            var sanpham = _dbContext.Sanphams.Find(id);
+            if (sanpham == null)
             {
-                IdsanPham = id,
-                Ten = tenSanPham,
-                Gianhap = giaNhap,
-                Slnhap = soLuongNhap
-            };
-            _dbContext.Sanphams.Remove(sanpham);
-            txt_Id.Text = "";
-            txt_Name.Text = "";
-            txt_GiaNhap.Text = "";
-            txt_SoLuongNhap.Text = "";
-            _dbContext.SaveChanges();
-            LoadData();
+                MessageBox.Show("Sản phẩm không tồn tại!");
+            }
+            else
+            {
+                _dbContext.Sanphams.Remove(sanpham);
+                txt_Id.Text = "";
+                txt_Name.Text = "";
+                txt_GiaNhap.Text = "";
+                txt_SoLuongNhap.Text = "";
+                _dbContext.SaveChanges();
+                MessageBox.Show("Xóa sản phẩm thành công!");
+                LoadData();
+            }
 
         }
 
         private void btn_Show_Click(object sender, EventArgs e)
         {
-            string id = this.txt_Id.Text;
-            string tenSanPham = this.txt_Name.Text;
-            decimal giaNhap = Convert.ToDecimal(this.txt_GiaNhap.Text);
-            int soLuongNhap = Convert.ToInt32(this.txt_SoLuongNhap.Text);
+            if(txt_Id.Text != null)
+            {
+                string id = this.txt_Id.Text;
+                string tenSanPham = this.txt_Name.Text;
+                decimal giaNhap = Convert.ToDecimal(this.txt_GiaNhap.Text);
+                int soLuongNhap = Convert.ToInt32(this.txt_SoLuongNhap.Text);
 
-            MessageBox.Show($"Id: {id} - Tên sản phẩm: {tenSanPham} - Giá nhập: {giaNhap.ToString("0")} - Số lượng nhập: {soLuongNhap}", "Thông tin chi tiết ");
+                MessageBox.Show($"Id: {id} - Tên sản phẩm: {tenSanPham} - Đơn giá: {giaNhap.ToString("0")} - Số lượng: {soLuongNhap}", "Thông tin chi tiết ");
+
+            }
         }
 
         private void btn_reset_Click(object sender, EventArgs e)
@@ -268,6 +277,7 @@ namespace QuanLiDuAn_Agile
             txt_Name.Text = "";
             txt_GiaNhap.Text = "";
             txt_SoLuongNhap.Text = "";
+            cbo_Find.Text = "";
             LoadData();
         }
 
@@ -279,7 +289,6 @@ namespace QuanLiDuAn_Agile
             txt_Name.Text = dgv_SanPham.Rows[row].Cells[1].Value.ToString();
             decimal giaNhap = Convert.ToDecimal(dgv_SanPham.Rows[row].Cells[2].Value);
             txt_GiaNhap.Text = giaNhap.ToString("0.##"); // bỏ số 0 sau dấu chấm
-            //txt_GiaNhap.Text = dgv_SanPham.Rows[row].Cells[2].Value.ToString();
             txt_SoLuongNhap.Text = dgv_SanPham.Rows[row].Cells[3].Value.ToString();
 
 

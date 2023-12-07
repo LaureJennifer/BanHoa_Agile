@@ -83,7 +83,7 @@
             // cbo_Find
             // 
             cbo_Find.FormattingEnabled = true;
-            cbo_Find.Items.AddRange(new object[] { "ID", "Tên sản phẩm", "Giá nhập", "Số lượng nhập" });
+            cbo_Find.Items.AddRange(new object[] { "ID", "Tên sản phẩm", "Đơn giá" });
             cbo_Find.Location = new Point(711, 35);
             cbo_Find.Margin = new Padding(3, 4, 3, 4);
             cbo_Find.Name = "cbo_Find";
@@ -123,9 +123,9 @@
             lb_SoLuongNhap.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point);
             lb_SoLuongNhap.Location = new Point(30, 313);
             lb_SoLuongNhap.Name = "lb_SoLuongNhap";
-            lb_SoLuongNhap.Size = new Size(124, 22);
+            lb_SoLuongNhap.Size = new Size(82, 22);
             lb_SoLuongNhap.TabIndex = 7;
-            lb_SoLuongNhap.Text = "Số lượng nhập";
+            lb_SoLuongNhap.Text = "Số lượng";
             // 
             // lb_GiaNhap
             // 
@@ -133,9 +133,9 @@
             lb_GiaNhap.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point);
             lb_GiaNhap.Location = new Point(30, 223);
             lb_GiaNhap.Name = "lb_GiaNhap";
-            lb_GiaNhap.Size = new Size(81, 22);
+            lb_GiaNhap.Size = new Size(73, 22);
             lb_GiaNhap.TabIndex = 6;
-            lb_GiaNhap.Text = "Giá nhập";
+            lb_GiaNhap.Text = "Đơn giá";
             // 
             // lb_Name
             // 
