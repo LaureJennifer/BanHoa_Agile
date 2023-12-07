@@ -57,9 +57,13 @@
             // 
             // grb_Find
             // 
+            grb_Find.BackgroundImage = Properties.Resources.need2;
+            grb_Find.BackgroundImageLayout = ImageLayout.Stretch;
             grb_Find.Controls.Add(btn_Find);
             grb_Find.Controls.Add(cbo_Find);
             grb_Find.Controls.Add(txt_Find);
+            grb_Find.Font = new Font("Roboto Black", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            grb_Find.ForeColor = Color.Black;
             grb_Find.Location = new Point(21, 7);
             grb_Find.Margin = new Padding(3, 4, 3, 4);
             grb_Find.Name = "grb_Find";
@@ -71,6 +75,7 @@
             // 
             // btn_Find
             // 
+            btn_Find.Font = new Font("Roboto Slab Medium", 9F, FontStyle.Regular, GraphicsUnit.Point);
             btn_Find.Location = new Point(858, 29);
             btn_Find.Margin = new Padding(3, 4, 3, 4);
             btn_Find.Name = "btn_Find";
@@ -82,12 +87,13 @@
             // 
             // cbo_Find
             // 
+            cbo_Find.Font = new Font("Raleway", 9F, FontStyle.Regular, GraphicsUnit.Point);
             cbo_Find.FormattingEnabled = true;
             cbo_Find.Items.AddRange(new object[] { "ID", "Tên sản phẩm", "Đơn giá" });
             cbo_Find.Location = new Point(711, 35);
             cbo_Find.Margin = new Padding(3, 4, 3, 4);
             cbo_Find.Name = "cbo_Find";
-            cbo_Find.Size = new Size(126, 28);
+            cbo_Find.Size = new Size(126, 29);
             cbo_Find.TabIndex = 1;
             // 
             // txt_Find
@@ -95,11 +101,13 @@
             txt_Find.Location = new Point(29, 35);
             txt_Find.Margin = new Padding(3, 4, 3, 4);
             txt_Find.Name = "txt_Find";
-            txt_Find.Size = new Size(675, 27);
+            txt_Find.Size = new Size(675, 28);
             txt_Find.TabIndex = 0;
             // 
             // grb_ChiTiet
             // 
+            grb_ChiTiet.BackgroundImage = Properties.Resources.need;
+            grb_ChiTiet.BackgroundImageLayout = ImageLayout.Stretch;
             grb_ChiTiet.Controls.Add(lb_SoLuongNhap);
             grb_ChiTiet.Controls.Add(lb_GiaNhap);
             grb_ChiTiet.Controls.Add(lb_Name);
@@ -191,6 +199,7 @@
             // 
             // btn_Add
             // 
+            btn_Add.Font = new Font("Roboto Slab Medium", 10F, FontStyle.Regular, GraphicsUnit.Point);
             btn_Add.Location = new Point(807, 135);
             btn_Add.Margin = new Padding(3, 4, 3, 4);
             btn_Add.Name = "btn_Add";
@@ -202,6 +211,7 @@
             // 
             // btn_Update
             // 
+            btn_Update.Font = new Font("Roboto Slab Medium", 10F, FontStyle.Regular, GraphicsUnit.Point);
             btn_Update.Location = new Point(807, 207);
             btn_Update.Margin = new Padding(3, 4, 3, 4);
             btn_Update.Name = "btn_Update";
@@ -213,6 +223,7 @@
             // 
             // btn_Del
             // 
+            btn_Del.Font = new Font("Roboto Slab Medium", 10F, FontStyle.Regular, GraphicsUnit.Point);
             btn_Del.Location = new Point(807, 283);
             btn_Del.Margin = new Padding(3, 4, 3, 4);
             btn_Del.Name = "btn_Del";
@@ -224,6 +235,7 @@
             // 
             // btn_Show
             // 
+            btn_Show.Font = new Font("Roboto Slab Medium", 10F, FontStyle.Regular, GraphicsUnit.Point);
             btn_Show.Location = new Point(807, 354);
             btn_Show.Margin = new Padding(3, 4, 3, 4);
             btn_Show.Name = "btn_Show";
@@ -235,6 +247,7 @@
             // 
             // btn_reset
             // 
+            btn_reset.Font = new Font("Roboto Slab Medium", 10F, FontStyle.Regular, GraphicsUnit.Point);
             btn_reset.Location = new Point(807, 494);
             btn_reset.Margin = new Padding(3, 4, 3, 4);
             btn_reset.Name = "btn_reset";
@@ -246,7 +259,9 @@
             // 
             // groupBox2
             // 
+            groupBox2.BackgroundImage = Properties.Resources.need;
             groupBox2.Controls.Add(dgv_SanPham);
+            groupBox2.Font = new Font("Roboto Black", 9F, FontStyle.Regular, GraphicsUnit.Point);
             groupBox2.Location = new Point(19, 552);
             groupBox2.Margin = new Padding(3, 4, 3, 4);
             groupBox2.Name = "groupBox2";
@@ -258,18 +273,20 @@
             // 
             // dgv_SanPham
             // 
+            dgv_SanPham.BackgroundColor = Color.DarkSeaGreen;
             dgv_SanPham.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv_SanPham.Location = new Point(7, 29);
+            dgv_SanPham.Location = new Point(46, 41);
             dgv_SanPham.Margin = new Padding(3, 4, 3, 4);
             dgv_SanPham.Name = "dgv_SanPham";
             dgv_SanPham.RowHeadersWidth = 51;
             dgv_SanPham.RowTemplate.Height = 25;
-            dgv_SanPham.Size = new Size(960, 393);
+            dgv_SanPham.Size = new Size(885, 353);
             dgv_SanPham.TabIndex = 0;
             dgv_SanPham.CellClick += dgv_SanPham_CellClick;
             // 
             // SortByPriceBtn
             // 
+            SortByPriceBtn.Font = new Font("Roboto Slab Medium", 10F, FontStyle.Regular, GraphicsUnit.Point);
             SortByPriceBtn.Location = new Point(807, 421);
             SortByPriceBtn.Margin = new Padding(3, 4, 3, 4);
             SortByPriceBtn.Name = "SortByPriceBtn";
@@ -284,6 +301,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DarkGray;
+            BackgroundImage = Properties.Resources.need;
             ClientSize = new Size(1010, 999);
             Controls.Add(SortByPriceBtn);
             Controls.Add(groupBox2);
