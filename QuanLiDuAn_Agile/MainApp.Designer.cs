@@ -98,10 +98,11 @@
             // 
             // txt_Find
             // 
+            txt_Find.Font = new Font("Raleway Medium", 9F, FontStyle.Regular, GraphicsUnit.Point);
             txt_Find.Location = new Point(29, 35);
             txt_Find.Margin = new Padding(3, 4, 3, 4);
             txt_Find.Name = "txt_Find";
-            txt_Find.Size = new Size(675, 28);
+            txt_Find.Size = new Size(675, 25);
             txt_Find.TabIndex = 0;
             // 
             // grb_ChiTiet
