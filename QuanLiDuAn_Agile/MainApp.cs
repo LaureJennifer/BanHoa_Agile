@@ -136,31 +136,39 @@ namespace QuanLiDuAn_Agile
                 Gianhap = x.Gianhap,
                 Slnhap = x.Slnhap
             }).ToList();
-
-            DataTable data = new DataTable();
-            data.Columns.Add("IdsanPham", typeof(string));
-            data.Columns.Add("Ten", typeof(string));
-            data.Columns.Add("Gianhap", typeof(decimal));
-            data.Columns.Add("Slnhap", typeof(int));
-            foreach (var item in lstSanPham)
+            if (lstSanPham.Count == 0)
             {
-                DataRow row = data.NewRow();
-                row["IdsanPham"] = item.IdsanPham;
-                row["Ten"] = item.Ten;
-                row["Gianhap"] = item.Gianhap;
-                row["Slnhap"] = item.Slnhap;
-                data.Rows.Add(row);
+                MessageBox.Show("Không tồn tại sản phẩm!");
             }
+            else
+            {
+                DataTable data = new DataTable();
+                data.Columns.Add("IdsanPham", typeof(string));
+                data.Columns.Add("Ten", typeof(string));
+                data.Columns.Add("Gianhap", typeof(decimal));
+                data.Columns.Add("Slnhap", typeof(int));
+                foreach (var item in lstSanPham)
+                {
+                    DataRow row = data.NewRow();
+                    row["IdsanPham"] = item.IdsanPham;
+                    row["Ten"] = item.Ten;
+                    row["Gianhap"] = item.Gianhap;
+                    row["Slnhap"] = item.Slnhap;
+                    data.Rows.Add(row);
+                }
 
-            dgv_SanPham.DataSource = data;
-            dgv_SanPham.Columns[0].HeaderText = "Id";
-            dgv_SanPham.Columns[0].Width = 55;
-            dgv_SanPham.Columns[1].HeaderText = "Tên sản phẩm ";
-            dgv_SanPham.Columns[1].Width = 310;
-            dgv_SanPham.Columns[2].HeaderText = "Đơn giá";
-            dgv_SanPham.Columns[2].Width = 233;
-            dgv_SanPham.Columns[3].HeaderText = "Số lượng";
-            dgv_SanPham.Columns[3].Width = 233;
+
+                dgv_SanPham.DataSource = data;
+                dgv_SanPham.Columns[0].HeaderText = "Id";
+                dgv_SanPham.Columns[0].Width = 55;
+                dgv_SanPham.Columns[1].HeaderText = "Tên sản phẩm ";
+                dgv_SanPham.Columns[1].Width = 310;
+                dgv_SanPham.Columns[2].HeaderText = "Đơn giá";
+                dgv_SanPham.Columns[2].Width = 233;
+                dgv_SanPham.Columns[3].HeaderText = "Số lượng";
+                dgv_SanPham.Columns[3].Width = 233;
+            } 
+            
 
         }
 
